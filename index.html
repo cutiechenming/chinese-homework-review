@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>九年级语文阅读与理解训练作业单九讲评</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #5c6bc0;
+            --secondary-color: #42a5f5;
+            --accent-color: #ff9800;
+            --success-color: #4caf50;
+            --light-color: #f5f7ff;
+            --dark-color: #333;
+            --border-radius: 12px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background-color: #f0f2ff;
+            color: var(--dark-color);
+            line-height: 1.6;
+            padding: 20px;
+            background-image: linear-gradient(135deg, #f5f7ff 0%, #e3f2fd 100%);
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .question-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: var(--box-shadow);
+            border-left: 6px solid var(--primary-color);
+            transition: transform 0.3s ease;
+        }
+        
+        .question-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px dashed #e0e0e0;
+        }
+        
+        .question-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .question-score {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        .question-content {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        
+        .answer-section {
+            background-color: var(--light-color);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 15px;
+            display: none; /* 答案默认隐藏 */
+        }
+        
+        .answer-section.show {
+            display: block; /* 显示答案 */
+        }
+        
+        .answer-title {
+            display: flex;
+            align-items: center;
+            color: var(--success-color);
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .answer-title i {
+            margin-right: 8px;
+        }
+        
+        .answer-content {
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+        
+        .highlight {
+            background-color: #fff9c4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+            color: #e65100;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 8px rgba(66, 165, 245, 0.3);
+        }
+        
+        .btn:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(66, 165, 245, 0.4);
+        }
+        
+        .btn i {
+            margin-right: 5px;
+        }
+        
+        .btn-show-answer {
+            background-color: var(--success-color);
+        }
+        
+        .btn-show-answer:hover {
+            background-color: #388e3c;
+        }
+        
+        .btn-show-translation {
+            background-color: #9c27b0;
+        }
+        
+        .btn-show-translation:hover {
+            background-color: #7b1fa2;
+        }
+        
+        .explanation {
+            display: none;
+            background-color: #e8f5e9;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 4px solid var(--success-color);
+        }
+        
+        .explanation.show {
+            display: block;
+        }
+        
+        .explanation-title {
+            color: var(--success-color);
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .explanation-title i {
+            margin-right: 8px;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin: 30px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--accent-color);
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title i {
+            margin-right: 10px;
+        }
+        
+        .note-box {
+            background-color: #e3f2fd;
+            border-left: 5px solid var(--secondary-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-style: italic;
+        }
+        
+        .translation-box {
+            display: none;
+            background-color: #fff3e0;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 4px solid #ff9800;
+        }
+        
+        .translation-box.show {
+            display: block;
+        }
+        
+        .translation-title {
+            color: #ff9800;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .translation-title i {
+            margin-right: 8px;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .question-card {
+                padding: 15px;
+            }
+            
+            .question-title {
+                font-size: 1.2rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .btn {
+                display: block;
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-book-reader"></i> 九年级语文阅读与理解训练作业单九讲评</h1>
+            <p>班级：__________ 姓名：__________ 学号：__________ 设计者：陈鸣 审核者：王伟 限时60分钟</p>
+        </header>
+        
+        <section id="accumulation">
+            <div class="section-title">
+                <i class="fas fa-pen-nib"></i> 一、积累与运用
+            </div>
+            
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="question-title">第1题：根据拼音写汉字</div>
+                    <div class="question-score">分值：4分</div>
+                </div>
+                <div class="question-content">
+                    <p>根据拼音在田字格内写出相应的汉字。</p>
+                    <p>①辨伪去wàng ( ) ②孜孜不倦jí取 ( ) ③不能一味mò守 ( ) ④自bào自弃 ( )</p>
+                </div>
+                <button class="btn btn-show-answer" onclick="toggleAnswer('answer1')">
+                    <i class="fas fa-eye"></i> 显示答案
+                </button>
+                <div id="answer1" class="answer-section">
+                    <div class="answer-title">
+                        <i class="fas fa-check-circle"></i> 参考答案
+                    </div>
+                    <div class="answer-content">
+                        <p><span class="highlight">妄、汲、墨、暴</span></p>
+                    </div>
+                </div>
+                <button class="btn" onclick="toggleExplanation('explanation1')">
+                    <i class="fas fa-lightbulb"></i> 详细解析
+                </button>
+                <div id="explanation1" class="explanation">
+                    <div class="explanation-title">
+                        <i class="fas fa-brain"></i> 解题思路
+                    </div>
+                    <p>1. "辨伪去wàng"：根据上下文"怀疑不仅是消极方面辨伪去wàng的必须步骤"，"辨伪去wàng"是指辨别虚假、去除虚妄，所以是"妄"。</p>
+                    <p>2. "孜孜不倦jí取"：意思是勤奋努力不知疲倦地获取知识，"汲"有吸取、获取的意思。</p>
+                    <p>3. "不能一味mò守"：指不能一味地拘泥、遵守旧的说法，"墨守"指固执地遵守旧规。</p>
+                    <p>4. "自bào自弃"：指自甘堕落，不求进取，"自暴自弃"是固定成语。</p>
+                </div>
+            </div>
+            
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="question-title">第2题：标点符号选择</div>
+                    <div class="question-score">分值：2分</div>
+                </div>
+                <div class="question-content">
+                    <p>填入【甲】【乙】两处的标点，最恰当的一项是（ ）</p>
+                    <p>A. 【甲】"。 【乙】； B. 【甲】"。 【乙】，</p>
+                    <p>C. 【甲】。" 【乙】， D. 【甲】。" 【乙】；</p>
+                </div>
+                <button class="btn btn-show-answer" onclick="toggleAnswer('answer2')">
+                    <i class="fas fa-eye"></i> 显示答案
+                </button>
+                <div id="answer2" class="answer-section">
+                    <div class="answer-title">
+                        <i class="fas fa-check-circle"></i> 参考答案
+                    </div>
+                    <div class="answer-content">
+                        <p><span class="highlight">D</span></p>
+                    </div>
+                </div>
+                <button class="btn" onclick="toggleExplanation('explanation2')">
+                    <i class="fas fa-lightbulb"></i> 详细解析
+                </button>
+                <div id="explanation2" class="explanation">
+                    <div class="explanation-title">
+                        <i class="fas fa-brain"></i> 解题思路
+                    </div>
+                    <p>【甲】处：前文是直接引语"我太无能，不能创造"，后面是说话人的叙述，所以句号应放在引号里面。</p>
+                    <p>【乙】处："鲁钝的曾参，传了孔子的道统"和"不识字的慧能，传了黄梅的教义"是两个并列分句，中间应该用分号。</p>
+                    <p>因此正确答案是D。</p>
+                </div>
+            </div>
+            
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="question-title">第3题：语法知识判断</div>
+                    <div class="question-score">分值：2分</div>
+                </div>
+                <div class="question-content">
+                    <p>下列说法正确一项是（ ）</p>
+                    <p>A. "学贵有疑""基本条件""jí取知识""自bào自弃"短语类型各不相同。</p>
+                    <p>B. 文段中画波浪线的句子是并列复句。</p>
+                    <p>C. 文段画线句的主干是：我们mò守旧说。</p>
+                    <p>D. "鲁钝"是"愚笨，不敏锐"的意思，这里是谦辞。</p>
+                </div>
+                <button class="btn btn-show-answer" onclick="toggleAnswer('answer3')">
+                    <i class="fas fa-eye"></i> 显示答案
+                </button>
+                <div id="answer3" class="answer-section">
+                    <div class="answer-title">
+                        <i class="fas fa-check-circle"></i> 参考答案
+                    </div>
+                    <div class="answer-content">
+                        <p><span class="highlight">A</span></p>
+                    </div>
+                </div>
+                <button class="btn" onclick="toggleExplanation('explanation3')">
+                    <i class="fas fa-lightbulb"></i> 详细解析
+                </button>
+                <div id="explanation3" class="explanation">
+                    <div class="explanation-title">
+                        <i class="fas fa-brain"></i> 解题思路
+                    </div>
+                    <p>分析各选项：</p>
+                    <p>B选项：画波浪线的句子"怀疑不仅是消极方面辨伪去妄的必须步骤，也是积极方面建设新学说、启迪新发明的基本条件"是递进复句，不是并列复句。</p>
+                    <p>C选项：画线句"我们不能一味mò守前人的旧说"的主干是"我们不能mò守旧说"，原选项缺少"能"。</p>
+                    <p>D选项："鲁钝"是形容曾参的，这里是客观描述，不是谦辞。</p>
+                    <p>A选项正确："学贵有疑"是主谓短语，"基本条件"是偏正短语，"jí取知识"是动宾短语，"自bào自弃"是并列短语，四者类型确实各不相同。</p>
+                </div>
+            </div>
+            
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="question-title">第4题：课文原句默写</div>
+                    <div class="question-score">分值：10分</div>
+                </div>
+                <div class="question-content">
+                    <p>根据提示填写课文原句。</p>
+                    <p>①山舞银蛇，__________。</p>
+                    <p>②浮光跃金，__________。</p>
+                    <p>③__________，万钟于我何加焉！</p>
+                    <p>④__________，奉命于危难之间。</p>
+                    <p>⑤听诗词里的故事：刘禹锡在《酬乐天扬州初逢席上见赠》中借"__________，__________"讲述世事变迁、物是人非的故事；范仲淹在《渔家傲·秋思》中用"__________，__________"讲述尽孝尽忠难以两全、内心矛盾的戍边将士的故事。</p>
+                </div>
+                <button class="btn btn-show-answer" onclick="toggleAnswer('answer4')">
+                    <i class="fas fa-eye"></i> 显示答案
+                </button>
+                <div id="answer4" class="answer-section">
+                    <div class="answer-title">
+                        <i class="fas fa-check-circle"></i> 参考答案
+                    </div>
+                    <div class="answer-content">
+                        <p>①<span class="highlight">原驰蜡象</span></p>
+                        <p>②<span class="highlight">静影沉璧</span></p>
+                        <p>③<span class="highlight">万钟则不辩礼义而受之</span></p>
+                        <p>④<span class="highlight">受任于败军之际</span></p>
+                        <p>⑤<span class="highlight">怀旧空吟闻笛赋，到乡翻似烂柯人；浊酒一杯家万里，燕然未勒归无计</span></p>
+                    </div>
+                </div>
+                <div class="note-box">
+                    <p><i class="fas fa-exclamation-circle"></i> 注意：默写题要特别注意易错字，如"辩"不要写成"辨"，"璧"不要写成"壁"，"勒"不要写成"乐"等。</p>
+                </div>
+            </div>
+            
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="question-title">第5题：综合性学习活动</div>
+                    <div class="question-score">分值：8分</div>
+                </div>
+                <div class="question-content">
+                    <p>（1）班级准备参演一个课本剧，请完善编排流程。</p>
+                    <p>第一步：确定篇目，__________</p>
+                    <p>第二步：__________，认真排练</p>
+                    <p>（2）小姜同学为班级课本剧《范进中举》选择了六张背景图片，请按照小说情节发展的顺序，选出正确的一项（ ）</p>
+                    <p>（3）小姜对图片（2）这一情节中胡屠户的形象进行了舞台表演设计，请找出不合理的一处，并作具体分析。</p>
+                    <div class="table-container">
+                        <table>
+                            <tr>
+                                <th>形象设计</th>
+                                <td>穿着油晃晃的短衫，脸上堆笑，不再是平日的凶恶样子。</td>
+                            </tr>
+                            <tr>
+                                <th>动作设计</th>
+                                <td>屠户连忙摇手推托。</td>
+                            </tr>
+                            <tr>
+                                <th>语言设计</th>
+                                <td>"这个，你且收着。我原是贺你的，怎好又拿了回去？"</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <p>不合理处：__________</p>
+                    <p>（4）你被选为课本剧大赛的主持人，请结合课文内容，在《范进中举》《我的叔叔于勒》两个剧目表演之间写一段串词。</p>
+                    <p>__________</p>
+                </div>
+                <button class="btn btn-show-answer" onclick="toggleAnswer('answer5')">
+                    <i class="fas fa-eye"></i> 显示答案
+                </button>
+                <div id="answer5" class="answer-section">
+                    <div class="answer-title">
+                        <i class="fas fa-check-circle"></i> 参考答案
+                    </div>
+                    <div class="answer-content">
+                        <p>（1）<span class="highlight">编写剧本；角色分工</span></p>
+                        <p>（2）<span class="highlight">D</span></p>
+                        <p>（3）<span class="highlight">动作设计"连忙摇手推脱"不合理，屠户是见财心喜，假意推托。原文"屠户把银子攥在手里紧紧的，把拳头舒过来"更细腻地写出了胡屠户市侩虚伪、嗜钱如命的嘴脸。</span></p>
+                        <p>（4）<span class="highlight">示例：十年寒窗无人问，一朝闻名天下知。范进中举，喜极而疯，是喜剧，还是悲剧？令人深思。《我的叔叔于勒》，十年期盼，一朝相逢，又会上演一场怎样的人间悲剧？</span></p>
+                    </div>
+                </div>
+                <button class="btn" onclick="toggleExplanation('explanation5')">
+                    <i class="fas fa-lightbulb"></i> 详细解析
+                </button>
+                <div id="explanation5" class="explanation">
+                    <div class="explanation-title">
+                        <i class="fas fa-brain"></i> 解题思路
+                    </div>
+                    <p>（1）课本剧编排流程：先确定篇目，然后编写剧本，接着进行角色分工和排练，最后准备服装道具进行彩排。</p>
+                    <p>（2）《范进中举》情节发展顺序：范进借钱赶考→范进卖鸡→范进看榜→范进发疯→胡屠户打范进→张乡绅拜访。根据图片内容判断正确顺序为D。</p>
+                    <p>（3）胡屠户形象分析：胡屠户是个典型的市侩小人，见钱眼开。原文中他假意推托实则紧握银子的细节更能体现其虚伪性格。</p>
+                    <p>（4）串词写作要点：要衔接两个剧目，点明各自核心内容，引发观众思考，语言要简洁生动。</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="reading">
+            <div class="section-title">
+                <i class="fas fa-book-open"></i> 二、阅读理解
+            </div>
+            
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="question-title">第6-10题：古诗文阅读（陆游专题）</div>
+                    <div class="question-score">分值：15分</div>
+                </div>
+                <div class="question-content">
+                    <p>第6题：根据表格中提示的方法，解释下列句子中的加点字。</p>
+                    <div class="table-container">
+                        <table>
+                            <tr>
+                                <th>文言语句</th>
+                                <th>方法</th>
+                                <th>释义</th>
+                            </tr>
+                            <tr>
+                                <td>人讥其颓放</td>
+                                <td>联系课内：忧谗畏讥（《岳阳楼记》）</td>
+                                <td>①__________</td>
+                            </tr>
+                            <tr>
+                                <td>陆子治一小室居之</td>
+                                <td>结合语境</td>
+                                <td>②__________</td>
+                            </tr>
+                            <tr>
+                                <td>有竹数竿，大如椽，长拂地</td>
+                                <td>查阅字典：A.拂拭，轻轻擦过；B.碰撞，击打；C.振动，抖动</td>
+                                <td>③__________（填选序号）</td>
+                            </tr>
+                            <tr>
+                                <td>或煮茶以啜，皆适也</td>
+                                <td>组词法</td>
+                                <td>④__________</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <p>第7题：用"/"给文中画横线处断句（限断两处）。</p>
+                    <p>但 见 陆 子 之 容 夷 然 澹 然 莫 不 叹 以 为 不 可 及 也</p>
+                    
+                    <p>第8题：运用凝练的语言可以使诗歌意蕴丰富，请从《书愤》和《诉衷情·当年万里觅封侯》中选择一首，结合画波浪线句子中的加点词进行赏析。</p>
+                    <p>__________</p>
+                    
+                    <p>第9题：陆游自号"放翁"，请结合上述材料中的诗文内容理解"放翁"的含义。</p>
+                    <p>__________</p>
+                    
+                    <p>第10题："僵卧孤村不自哀，尚思为国戍轮台。夜阑卧听风吹雨，铁马兵河入梦来。"------《十一月四日风雨大作》，你认为这首诗歌放在陆游的哪一段起落中最合适，请说明理由。</p>
+                    <p>__________</p>
+                </div>
+                <button class="btn btn-show-answer" onclick="toggleAnswer('answer6-10')">
+                    <i class="fas fa-eye"></i> 显示答案
+                </button>
+                <div id="answer6-10" class="answer-section">
+                    <div class="answer-title">
+                        <i class="fas fa-check-circle"></i> 参考答案
+                    </div>
+                    <div class="answer-content">
+                        <p>第6题：<span class="highlight">①批评，指责 ②修建，整理，治理 ③A ④适意，舒适</span></p>
+                        <p>第7题：<span class="highlight">但 见 陆 子 之 容/ 夷 然 澹 然/ 莫 不 叹 以 为 不 可 及 也</span></p>
+                        <p>第8题：<span class="highlight">示例一：《书愤》中"塞上长城空自许，镜中衰鬓已先斑。"中"空"有"徒劳地""白白地"之意，形象地写出了因宏伟志向无法实现而产生的沉重的失落感，"鬓已先斑"意思是头发已白，实际上揭示了自己屡受排挤、理想落空的处境，表达了诗人壮志难酬的悲愤之情。既有壮志未酬的悲愤又有对现实无奈的感慨。</span></p>
+                        <p><span class="highlight">示例二：《诉衷情·当年万里觅封侯》中"胡未灭，鬓先秋，泪空流。"说尽平生不得志。回首人生，流年暗度，两鬓已苍；沉思往事，雄心虽在，壮志难酬。"未""先""空"三字在承接比照中，流露出内心失望沉痛、报国无门的情感。</span></p>
+                        <p>第9题：<span class="highlight">①陆游因与范成大以文字结交，不拘泥于礼节，被人嘲笑颓放，因此自号"放翁"以表达自己对世俗眼光的不屑，体现了陆游豪放不羁、超凡脱俗的个性；②陆游一生充满了对自然与生活的热爱，他热爱山水，不被世俗所累，与自然相融，追求心灵的宁静与自由，这在他的诗作《游山西村》中有所体现；③"放"也有放下、释放之意。陆游一生历经坎坷，多次遭贬谪，但他始终保持着乐观豁达的心态。</span></p>
+                        <p>第10题：<span class="highlight">放在四起四落中。理由："铁马兵河入梦来"，诗人借助梦境表达自己虽年迈，但仍有报国的壮志雄心。空怀壮志却无法被重用，只能"僵卧孤村"。与第四起四落中的《诉衷情》中的"此生难料，心在天山，身老沧洲。"内容情感相似。</span></p>
+                    </div>
+                </div>
+                <button class="btn btn-show-translation" onclick="toggleTranslation('translation6-10')">
+                    <i class="fas fa-language"></i> 显示文言文翻译
+                </button>
+                <div id="translation6-10" class="translation-box">
+                    <div class="translation-title">
+                        <i class="fas fa-book"></i> 文言文翻译
+                    </div>
+                    <div class="answer-content">
+                        <p><strong>《宋史·列传·卷一百五十四》译文：</strong>范成大统帅蜀地（担任四川制置使）时，陆游担任参议官，（二人）凭借文字结交，不被礼节和法度所拘束，人们讥讽陆游行为颓废放旷，于是他就自号为"放翁"。后来陆游多次升迁，担任了江西常平提举（负责管理常平仓救济、农田水利等事务的官职）。</p>
+                        <p><strong>《东篱记》译文：</strong>陆游家房子的东边一侧，有一个小园子，距离喧闹的集市并不远，然而园子里草木的意趣，与山林间的并没有什么不同。我（陆游，自号陆子）修整了一间小屋住在里面，给它取名叫"东篱"，是取用了陶渊明"采菊东篱下"这句诗的意思。东篱的南边，有几丛菊花，开花的时候色彩绚丽，香气充满了整个屋子。南边的窗户用竹子做成窗格，阳光和月色照进来，都非常惹人喜爱。东篱的西边，有几竿竹子，粗得像椽子一样，长长的枝叶低垂，几乎拂到地面。风吹过来时，竹子发出萧萧的声响，下雨的时候，雨水打在竹叶上淅淅沥沥，这些都成了美妙的声音。我每天住在这间屋子里，有时带着书来阅读，有时提笔写作，有时采摘菊花来欣赏把玩，有时除草来栽种花草，有时煮茶来品尝，这些都让我感到很舒适惬意。别人来到我这里，也不再问其他的事情，只看到我神态平和、淡泊的样子，没有不感叹认为这是常人难以企及的境界。</p>
+                    </div>
+                </div>
+                <button class="btn" onclick="toggleExplanation('explanation6-10')">
+                    <i class="fas fa-lightbulb"></i> 详细解析
+                </button>
+                <div id="explanation6-10" class="explanation">
+                    <div class="explanation-title">
+                        <i class="fas fa-brain"></i> 解题思路
+                    </div>
+                    <p><strong>第6题：</strong>文言词语解释要掌握方法：联系课内法、结合语境法、查阅字典法、组词法等。</p>
+                    <p><strong>第7题：</strong>断句要理解句意，注意主语和谓语之间、并列成分之间可以适当断开。"夷然澹然"是并列短语，形容陆游的神态，前后可断。</p>
+                    <p><strong>第8题：</strong>诗歌赏析要抓住关键词，分析其含义和表达效果，体会诗人情感。"空""已""未""先"等字都是理解诗歌情感的关键。</p>
+                    <p><strong>第9题：</strong>理解"放翁"含义要结合陆游的生平经历和诗文作品，从个性、生活态度和心境三个方面分析。</p>
+                    <p><strong>第10题：</strong>诗歌归类要抓住诗歌内容和情感，与陆游不同阶段的人生经历和心境进行匹配。</p>
+                </div>
+            </div>
+            
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="question-title">第11-12题：名著阅读</div>
+                    <div class="question-score">分值：10分</div>
+                </div>
+                <div class="question-content">
+                    <p>第11题：下面选文中的"坐"都体现出对某人的"敬"，但原因各不相同。请根据提示，完成表格相关内容的填空。</p>
+                    <div class="table-container">
+                        <table>
+                            <tr>
+                                <th>人物</th>
+                                <th>"敬"</th>
+                                <th>原因</th>
+                            </tr>
+                            <tr>
+                                <td>(1)__________</td>
+                                <td>诗人对A的敬爱与感激</td>
+                                <td>因为A勤劳善良、乐观坚强、对乳儿无私的爱。</td>
+                            </tr>
+                            <tr>
+                                <td>(2)__________</td>
+                                <td>众人对B敬重和拥戴</td>
+                                <td>因为B(4)__________</td>
+                            </tr>
+                            <tr>
+                                <td>(3)__________</td>
+                                <td>杜少卿对C的敬佩</td>
+                                <td>因为C知书达礼、不卑不亢、自尊自强</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <p>第12题：下列关于名著的表述有误的一项是（ ）</p>
+                    <p>A. 艾青诗歌用散文的诗行，创造了现代自由体诗的一座高峰。</p>
+                    <p>B. 《水浒传》描写了北宋徽宗时，以宋江为首的好汉在水泊梁山聚义。</p>
+                    <p>C. 《儒林外史》中马二、汤奉这类贪官污吏。</p>
+                    <p>D. 《水浒传》中经常会出现"有诗为证"。</p>
+                </div>
+                <button class="btn btn-show-answer" onclick="toggleAnswer('answer11-12')">
+                    <i class="fas fa-eye"></i> 显示答案
+                </button>
+                <div id="answer11-12" class="answer-section">
+                    <div class="answer-title">
+                        <i class="fas fa-check-circle"></i> 参考答案
+                    </div>
+                    <div class="answer-content">
+                        <p>第11题：<span class="highlight">(1)大堰河 (2)晁盖 (3)沈琼枝 (4)仗义疏财、为人豪爽</span></p>
+                        <p>第12题：<span class="highlight">C</span>（解析：马二先生不是贪官污吏，他是一个八股迷，醉心于科举，是一个善良、迂腐的人物形象。而汤奉是贪官污吏的代表。）</p>
+                    </div>
+                </div>
+                <button class="btn" onclick="toggleExplanation('explanation11-12')">
+                    <i class="fas fa-lightbulb"></i> 详细解析
+                </button>
+                <div id="explanation11-12" class="explanation">
+                    <div class="explanation-title">
+                        <i class="fas fa-brain"></i> 解题思路
+                    </div>
+                    <p><strong>第11题：</strong>理解名著中的人物形象，要结合具体情节和人物性格特点。</p>
+                    <ul>
+                        <li>大堰河：艾青诗歌《大堰河——我的保姆》中的主人公，勤劳善良的农村妇女。</li>
+                        <li>晁盖：《水浒传》中梁山泊的第二任首领，仗义疏财，人称"托塔天王"。</li>
+                        <li>沈琼枝：《儒林外史》中具有反抗精神的女性形象，自尊自强。</li>
+                    </ul>
+                    <p><strong>第12题：</strong>名著知识辨析题要准确掌握作品中的人物形象和情节。马二先生是《儒林外史》中热衷科举的腐儒，不是贪官污吏。</p>
+                </div>
+            </div>
+            
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="question-title">第13-16题：现代文阅读（短视频与青少年）</div>
+                    <div class="question-score">分值：12分</div>
+                </div>
+                <div class="question-content">
+                    <p>第13题：请探究【材料一】图表中的数据，简要写出两条有价值的结论。</p>
+                    <p>__________</p>
+                    
+                    <p>第14题：下列表述与上述材料意思不相符的一项是（ ）</p>
+                    <p>A. 青少年在短视频中看到别人美好的生活，会产生羡慕心理，容易引发自我贬低和挫折感。</p>
+                    <p>B. 青少年应当培养批判性思维，理性客观地看待网络世界。</p>
+                    <p>C. "信息茧房"指用户接触到的信息几乎都是平台推送的符合自己兴趣和观点的信息。</p>
+                    <p>D. 短视频的流行导致孩子不再阅读书籍。</p>
+                    
+                    <p>第15题：请简要分析【材料二】的论证思路。</p>
+                    <p>__________</p>
+                    
+                    <p>第16题：结合【材料二】、【材料三】，概括青少年沉迷于短视频的危害。</p>
+                    <p>__________</p>
+                </div>
+                <button class="btn btn-show-answer" onclick="toggleAnswer('answer13-16')">
+                    <i class="fas fa-eye"></i> 显示答案
+                </button>
+                <div id="answer13-16" class="answer-section">
+                    <div class="answer-title">
+                        <i class="fas fa-check-circle"></i> 参考答案
+                    </div>
+                    <div class="answer-content">
+                        <p>第13题：<span class="highlight">①年龄越小，短视频的使用率越高；②在短视频内容选择上，超半数的人倾向于幽默搞笑类和明星趣闻类。</span></p>
+                        <p>第14题：<span class="highlight">D</span></p>
+                        <p>第15题：<span class="highlight">首先，提出"中学生使用社交媒体而导致心理问题的主要原因是上行比较"这一观点，然后阐明"上行比较"的概念，接着分析出现"上行比较"的原因，最后指出"要怎样才能走出上行比较的怪圈"。</span></p>
+                        <p>第16题：<span class="highlight">①诱发青少年心理问题（会引发青少年自卑、焦虑和迷茫等情绪问题）；②对青少年的大脑发育和思维能力的培养不利；③挤占青少年阅读时间，可能影响青少年深度阅读和持久学习的能力。</span></p>
+                    </div>
+                </div>
+                <button class="btn" onclick="toggleExplanation('explanation13-16')">
+                    <i class="fas fa-lightbulb"></i> 详细解析
+                </button>
+                <div id="explanation13-16" class="explanation">
+                    <div class="explanation-title">
+                        <i class="fas fa-brain"></i> 解题思路
+                    </div>
+                    <p><strong>第13题：</strong>图表分析题要抓住数据中的关键信息和变化趋势，用简洁语言概括。</p>
+                    <p><strong>第14题：</strong>材料理解题要仔细对照原文，判断选项表述是否与材料意思一致。D选项说法绝对化，材料只说"存在风险"，没说"导致不再阅读"。</p>
+                    <p><strong>第15题：</strong>论证思路分析要理清文章结构，抓住观点、论证过程、结论等要素。</p>
+                    <p><strong>第16题：</strong>信息概括题要从不同材料中提取相关信息，分类整理，用简洁语言表述。</p>
+                </div>
+            </div>
+        </section>
+        
+        <footer>
+            <p>© 2023 九年级语文讲评 | 设计者：陈鸣 | 审核者：王伟</p>
+            <p>祝同学们学习进步，取得好成绩！ <i class="fas fa-graduation-cap"></i></p>
+        </footer>
+    </div>
+
+    <script>
+        // 显示/隐藏答案
+        function toggleAnswer(answerId) {
+            const answer = document.getElementById(answerId);
+            answer.classList.toggle('show');
+        }
+        
+        // 显示/隐藏解析
+        function toggleExplanation(explanationId) {
+            const explanation = document.getElementById(explanationId);
+            explanation.classList.toggle('show');
+        }
+        
+        // 显示/隐藏文言文翻译
+        function toggleTranslation(translationId) {
+            const translation = document.getElementById(translationId);
+            translation.classList.toggle('show');
+        }
+        
+        // 可以添加一个显示所有答案的功能（可选）
+        function showAllAnswers() {
+            const answers = document.querySelectorAll('.answer-section');
+            answers.forEach(answer => {
+                answer.classList.add('show');
+            });
+        }
+        
+        // 可以添加一个隐藏所有答案的功能（可选）
+        function hideAllAnswers() {
+            const answers = document.querySelectorAll('.answer-section');
+            answers.forEach(answer => {
+                answer.classList.remove('show');
+            });
+        }
+    </script>
+</body>
+</html>
